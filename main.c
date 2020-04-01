@@ -3,7 +3,7 @@
 char Tablero[3][3][2],Respuesta[15],aux[15];
 int Victoria=0,lugar=0,bot=0,movimiento=0,contador_empate=0;
 int main()
-{//163 ñ
+{//163 Ã±
     srand(time(NULL));
     int x=0,y=0,fila=0,intrucciones=0;
     llenado();//llena la matriz de " "
@@ -16,6 +16,7 @@ int main()
     printf("  7   %c   8   %c   9\n",179,179);
     Ingresar_Base();
     Bot();
+    movimiento=0;
     while(1)//While del volver a jugar
     {
         while(1)//While del partido
@@ -59,7 +60,7 @@ int main()
         }//cierre del partido
        do
         {
-            printf("¿Desea volver jugar?");
+            printf("Â¿Desea volver jugar?");
             scanf("%s",&Respuesta);
         }while(validar_respuesta(Respuesta));
         if(strcmp(Respuesta,"no")==0 || strcmp(Respuesta,"No")==0)
