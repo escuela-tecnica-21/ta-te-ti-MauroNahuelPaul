@@ -1,12 +1,13 @@
 #include <stdio.h>
 #include <stdlib.h>
 char Tablero[3][3][2],aux[15];
-int lugar=0,movimiento=0;
+int movimiento=0,Victoria=0;
 int main()
 {//163 ñ
     srand(time(NULL));
-    int x=0,y=0,fila=0,Victoria=0,intrucciones=0,posicion;
+    int x=0,y=0,fila=0,intrucciones=0,posicion;
     char Respuesta[15];
+
     llenado();//llena la matriz de " "
     gotoxy(1,2);
     printf("Bienvenidos al TATETI\t Creador:Paul Nahuel Mauro\n");//introduccion
@@ -15,8 +16,10 @@ int main()
     printf("  4   %c   5   %c   6\n",179,179);
     printf("%c%c%c%c%c%c%c%c%c%c%c%c%c%c%c%c%c%c%c%c%c\n",196,196,196,196,196,196,197,196,196,196,196,196,196,196,197,196,196,196,196,196,196);
     printf("  7   %c   8   %c   9\n",179,179);
-    //Ingresar_Base();
+    Ingresar_Base();
     Bot();
+    Verificador_Empate(Victoria);//si es empate termina el partido
+    Verificador_Vict(Victoria);//si el jugador 1 gano termina el partido
     while(1)//While general
     {
         while(1)//While del partido
@@ -33,15 +36,15 @@ int main()
             }while(validar_lugar(posicion));//verifica que el valor ingresado no este ocupado
             Dato_ingresadoX(posicion);
             mostrar();//muestra la matriz
-            Verificador_Empate(Victoria);//si es empate termina el partido
-            Verificador_Vict(Victoria);//si el jugador 1 gano termina el partido
+            Verificador_Empate();//si es empate termina el partido
+            Verificador_Vict();//si el jugador 1 gano termina el partido
             if(Victoria==1)
             {break;}
             //Turno del Bot
             Bot();
             mostrar();//muestra la matriz
-            Verificador_Empate(Victoria);//si es empate termina el partido
-            Verificador_Vict(Victoria);//si la maquina gano termina el partido
+            Verificador_Empate();//si es empate termina el partido
+            Verificador_Vict();//si la maquina gano termina el partido
             if(Victoria==1)
             {break;}
             //cierre del bot
@@ -65,43 +68,52 @@ int main()
 
 void Ingresar_Base()//funcion para ingresar un tablero inicial para que la maquina responda a el
 {
-    char Dato[15];
+    char Respuesta[3];
+    int lugar=0;
     while(1)
     {
         do
         {
-
-            printf("Ingrese el n%cmero que desea colocar la X,si desea salir ingrese N\n",163);
-            scanf("%s",&Dato);
-            if(strcmp(Dato,"N")==0)
-            {break;}
-            validar_lugar_char(Dato);//trans forma la varible char en int para evitar errores de cuando ingrese una letra
-        }while(validar_lugar(aux));//verifica que el valor ingresado no este ocupado
-       Dato_ingresadoX();
-       Verificador_Empate();//si hay un empate termina el partido
-       system("cls");
-       mostrar();//muestra la matriz
-       Verificador_Vict();//si el jugador 1 gano termina el partido
+            do
+            {
+                printf("¿Deseas ingresar una 'X'?");scanf("%s",&Respuesta);
+            }while(validar_Respuesta(Respuesta));
+            if(strcmp(Respuesta,"no")==0 || strcmp(Respuesta,"No")==0 || strcmp(Respuesta,"NO")==0)
+            {
+                break;
+            }
+            printf("Ingrese el n%cmero que desea colocar la X\n",163);
+            scanf("%d",&lugar);
+        }while(validar_lugar(lugar));//verifica que el valor ingresado no este ocupado
+        if(strcmp(Respuesta,"no")==0 || strcmp(Respuesta,"No")==0 || strcmp(Respuesta,"NO")==0)
+            {
+                break;
+            }
+       Dato_ingresadoX(lugar);
        mostrar();
-       if(strcmp(aux,"N")==0)
-        {break;}
     }
-    system("cls");
+    mostrar();
     while(1)
     {
         do
         {
-            mostrar();
-            printf("Ingrese el n%cmero que desea colocar la O,si desea salir ingrese N\n",163);
-            scanf("%s",&Dato);
-            if(strcmp(aux,"N")==0)
-            {break;}
-            validar_lugar_char(Dato);//trans forma la varible char en int para evitar errores de cuando ingrese una letra no deseada
+            do
+            {
+                printf("¿Deseas ingresar una 'O'?");scanf("%s",&Respuesta);
+            }while(validar_Respuesta(Respuesta));
+            if(strcmp(Respuesta,"no")==0 || strcmp(Respuesta,"No")==0 || strcmp(Respuesta,"NO")==0)
+            {
+                break;
+            }
+            printf("Ingrese el n%cmero que desea colocar la O\n",163);
+            scanf("%d",&lugar);
         }while(validar_lugar(aux));//verifica que el valor ingresado no este ocupado
-        Dato_ingresadoO();
-        mostrar();//muestra la matriz
-       if(strcmp(aux,"N")==0)
-            {break;}
+        if(strcmp(Respuesta,"no")==0 || strcmp(Respuesta,"No")==0 || strcmp(Respuesta,"NO")==0)
+            {
+                break;
+            }
+        Dato_ingresadoO(lugar);
+        mostrar();
     }
 }
 void llenado() //funcion llenado de la matriz en nada
@@ -125,56 +137,6 @@ void mostrar()//funcion mostrar la matriz
     printf("  %s   %c   %s   %c   %s \n",Tablero[1][0],179,Tablero[1][1],179,Tablero[1][2]);
     printf("%c%c%c%c%c%c%c%c%c%c%c%c%c%c%c%c%c%c%c%c%c\n",196,196,196,196,196,196,197,196,196,196,196,196,196,196,197,196,196,196,196,196,196);
     printf("  %s   %c   %s   %c   %s \n",Tablero[2][0],179,Tablero[2][1],179,Tablero[2][2]);
-}
-int validar_lugar_char(aux2)//funcion convertir el valor char en otra nueva variable como int
-{
-    if(strcmp(aux2,"1")==0)
-    {
-        lugar=1;
-        return 0;
-    }
-    if(strcmp(aux2,"2")==0)
-    {
-        lugar=2;
-        return 0;
-    }
-    if(strcmp(aux2,"3")==0)
-    {
-        lugar=3;
-        return 0;
-    }
-    if(strcmp(aux2,"4")==0)
-    {
-        lugar=4;
-        return 0;
-    }
-    if(strcmp(aux2,"5")==0)
-    {
-        lugar=5;
-        return 0;
-    }
-    if(strcmp(aux2,"6")==0)
-    {
-        lugar=6;
-        return 0;
-    }
-    if(strcmp(aux2,"7")==0)
-    {
-        lugar=7;
-        return 0;
-    }
-    if(strcmp(aux2,"8")==0)
-    {
-        lugar=8;
-        return 0;
-    }
-    if(strcmp(aux2,"9")==0)
-    {
-        lugar=9
-        ;
-        return 0;
-    }
-    return 1;
 }
 int validar_lugar(int lugar2)//funcion validar que el lugar no este ocupado
 {
@@ -205,13 +167,25 @@ int validar_lugar(int lugar2)//funcion validar que el lugar no este ocupado
        }
        return 0;
 }
-void Dato_ingresadoX(lugar)//coloca el numero ingresado por el usuario en el lugar correcto
+int validar_Respuesta(char Respuesta[3])
+{
+    if(strcmp(Respuesta,"si")==0 || strcmp(Respuesta,"Si")==0 || strcmp(Respuesta,"SI")==0)
+    {
+        return 0;
+    }
+    if(strcmp(Respuesta,"no")==0 || strcmp(Respuesta,"No")==0 || strcmp(Respuesta,"NO")==0)
+    {
+        return 0;
+    }
+    return 1;
+}
+void Dato_ingresadoX(int lugar)//coloca el numero ingresado por el usuario en el lugar correcto
 {
             if(lugar<4)//pone el valor donde corresponde en la matriz
             {strcpy(Tablero[0][lugar-1],"X");}
-            if (lugar>=4 && lugar<7)
+            if(lugar>=4 && lugar<7)
             {strcpy(Tablero[1][lugar-4],"X");}
-            if  (lugar>=7)
+            if(lugar>=7)
             {strcpy(Tablero[2][lugar-7],"X");}
 
 }
@@ -224,7 +198,7 @@ void Dato_ingresadoO(lugar)//coloca el numero ingresado por el Bot en el lugar c
             if  (lugar>=7)
             {strcpy(Tablero[2][lugar-7],"O");}
 }
-int Verificador_Vict(victoria)//Esta funcion verifica si el jugador 1 gano
+int Verificador_Vict()//Esta funcion verifica si el jugador 1 gano
 { int x=0;
 for(x=0;x<3;x++)
     {
@@ -234,13 +208,15 @@ for(x=0;x<3;x++)
               {
                   gotoxy(1,13);
                   printf("Player 1 win!!\n");
-                  return 1;
+                  Victoria=1;
+                  return 0;
               }
               if(strcmp(Tablero[x][0],"O")==0 && strcmp(Tablero[x][1],"O")==0 && strcmp(Tablero[x][2],"O")==0)
               {
                   gotoxy(1,13);
                   printf("Player 2 win!!\n");
-                  return 1;
+                  Victoria=1;
+                  return 0;
               }
           }
     }
@@ -252,16 +228,14 @@ for(x=0;x<3;x++)
               {
                   gotoxy(1,13);
                   printf("Player 1 win!!\n");
-                  return 1;
-              }
-        }
-        if(strcmp(Tablero[0][x],Tablero[1][x])==0 && strcmp(Tablero[1][x],Tablero[2][x])==0)//columnas
-          {
-              if(strcmp(Tablero[0][x],"O")==0 && strcmp(Tablero[1][x],"O")==0 && strcmp(Tablero[2][x],"O")==0)
+                  Victoria=1;
+                  return 0;
+              }if(strcmp(Tablero[0][x],"O")==0 && strcmp(Tablero[1][x],"O")==0 && strcmp(Tablero[2][x],"O")==0)
               {
                   gotoxy(1,13);
                   printf("Player 2 win!!\n");
-                  return 1;
+                  Victoria=1;
+                  return 0;
               }
         }
     }
@@ -271,7 +245,15 @@ for(x=0;x<3;x++)
               {
                   gotoxy(1,13);
                   printf("Player 1 win!!\n");
-                  return 1;
+                  Victoria=1;
+                  return 0;
+              }
+              if(strcmp(Tablero[0][0],"O")==0 && strcmp(Tablero[1][1],"O")==0 && strcmp(Tablero[2][2],"O")==0)
+              {
+                  gotoxy(1,13);
+                  printf("Player 2 win!!\n");
+                  Victoria=1;
+                  return 0;
               }
           }
           if(strcmp(Tablero[0][2],Tablero[1][1])==0 && strcmp(Tablero[1][1],Tablero[2][0])==0)//diagonal
@@ -280,27 +262,19 @@ for(x=0;x<3;x++)
               {
                   gotoxy(1,13);
                   printf("Player 1 win!!\n");
-                  return 1;
+                  Victoria=1;
+                  return 0;
               }
-          }
-          if(strcmp(Tablero[0][0],Tablero[1][1])==0 && strcmp(Tablero[1][1],Tablero[2][2])==0)//diagonal
-          {
-              if(strcmp(Tablero[0][0],"O")==0 && strcmp(Tablero[1][1],"O")==0 && strcmp(Tablero[2][2],"O")==0)
-              {
-                  gotoxy(1,13);
-                  printf("Player 2 win!!\n");
-                  return 1;
-              }
-          }
-          if(strcmp(Tablero[0][2],Tablero[1][1])==0 && strcmp(Tablero[1][1],Tablero[2][0])==0)//diagonal
-          {
               if(strcmp(Tablero[0][2],"O")==0 && strcmp(Tablero[1][1],"O")==0 && strcmp(Tablero[2][0],"O")==0)
               {
                   gotoxy(1,13);
                   printf("Player 2 win!!\n");
-                  return 1;
+                  Victoria=1;
+                  return 0;;
               }
           }
+          Victoria=0;
+          return 0;
 }
 int Verificador_Empate(victoria)//funcion verifica que el partido termino en empate
 {
@@ -317,7 +291,8 @@ int Verificador_Empate(victoria)//funcion verifica que el partido termino en emp
     }
     if(contador_empate==9)
     {
-        return 1;
+        Victoria=1;
+        return 0;
     }
     return 0;
 }
