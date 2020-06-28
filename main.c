@@ -67,8 +67,11 @@ int Contador(char Tablero[],char simbolo, int a, int b, int c){
 }
 
 int Empate(char Tablero[]){
-    if(Contador_Empate(Tablero)==9)
+    if(Contador_Empate(Tablero)==0)
+        return 1;
+    else{
         return 0;
+    }
 }
 
 int Contador_Empate(char Tablero[]){
