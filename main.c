@@ -15,8 +15,10 @@ int Ganar_Maquina(char Tablero[], char simbolo, int a, int b, int c);
 int Vacio(char Tablero[], int a, int b, int c);
 
 int const Hilera[][3]= {{0,1,2},{3,4,5},{6,7,8},{0,3,6},{1,4,7},{2,5,8},{0,4,8},{2,4,6}};
+int const esquinas[] = {0, 2, 6, 8};
+int const vertices[] = {1, 3, 5, 7};
 
-int main()
+int main(int argc, char ** argv)
 {
     char Tablero[9];
     Iniciar_Tablero(Tablero);
@@ -111,6 +113,7 @@ int Turno_Maquina(char Tablero[]){
             printf("Turno Maquina");
             return Vacio(Tablero, Hileras[X][0], Hileras[X][1], Hileras[X][1])
     }
+
 }
 
 int Ganar_Maquina(char Tablero[], char simbolo, int a, int b, int c){
@@ -133,3 +136,4 @@ int Defender_Maquina(char Tablero[], char simbolo, int a, int b, int c){
     else
         return 0;
 }
+
