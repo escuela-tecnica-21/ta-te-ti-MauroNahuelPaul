@@ -1,24 +1,11 @@
 #include <stdio.h>
 #include <stdlib.h>
 
-int Iniciar_Tablero(char Tablero);
-void Mostrar_Tablero(char Tablero);
-int Estado_Partido(char Tablero);
-int Victoria(char Tablero);
-int Contador(char Tablero[],char simbolo, int a, int b, int c);
-int Empate(char Tablero);
-int Contador_Empate(char Tablero[]);
-int Turno_Jugador(char Tablero);
-int Lugar_Vacio(char Tablero, int Posicion);
-int Turno_Maquina(char Tablero);
-int Ganar_Maquina(char Tablero[], char simbolo, int a, int b, int c);
-int Vacio(char Tablero[], int a, int b, int c);
-
-int const Hilera[][3]= {{0,1,2},{3,4,5},{6,7,8},{0,3,6},{1,4,7},{2,5,8},{0,4,8},{2,4,6}};
+int const Hileras[][3]= {{0,1,2},{3,4,5},{6,7,8},{0,3,6},{1,4,7},{2,5,8},{0,4,8},{2,4,6}};
 int const esquinas[] = {0, 2, 6, 8};
 int const vertices[] = {1, 3, 5, 7};
 
-int main(int argc, char ** argv)
+int main()
 {
     char Tablero[9];
     Iniciar_Tablero(Tablero);
@@ -79,12 +66,12 @@ int Empate(char Tablero[]){
 int Contador_Empate(char Tablero[]){
     int Suma;
     for(int x=0;x<9;x++){
-        if(Tablero[x]==" ")suma++;
+        if(Tablero[x]==" ")Suma++;
     }return Suma;
 }
 
-int Turno_Jugador(Tablero[]){
-    int Lugar
+int Turno_Jugador(char Tablero[]){
+    int Lugar;
     do{
         printf("Ingrese El Lugar");
         scanf("%d",&Lugar);
@@ -94,7 +81,7 @@ int Turno_Jugador(Tablero[]){
     return Tablero;
 }
 
-int Lugar_Vacio(char Tablero, Posicion){
+int Lugar_Vacio(char Tablero[],int Posicion){
     if(Tablero[Posicion]==' ')
         return 0;
     printf("Lugar no disponible");
@@ -103,15 +90,15 @@ int Lugar_Vacio(char Tablero, Posicion){
 
 int Turno_Maquina(char Tablero[]){
     for(int x=0;x<9;x++){
-        if(Ganar_Maquina(Tablero, 'O', Hileras[X][0], Hileras[X][1], Hileras[X][2])==1){
+        if(Ganar_Maquina(Tablero, 'O', Hileras[x][0], Hileras[x][1], Hileras[x][2])==1){
             printf("Turno Maquina");
-            return Vacio(Tablero, Hileras[X][0], Hileras[X][1], Hileras[X][1])
+            return Vacio(Tablero, Hileras[x][0], Hileras[x][1], Hileras[x][1]);
         }
     }
     for(int x=0;x<9;x++){
-        if(Defender_Maquina(Tablero, 'X', Hileras[X][0], Hileras[X][1], Hileras[X][2])==1){
+        if(Defender_Maquina(Tablero, 'X', Hileras[x][0], Hileras[x][1], Hileras[x][2])==1){
             printf("Turno Maquina");
-            return Vacio(Tablero, Hileras[X][0], Hileras[X][1], Hileras[X][1])
+            return Vacio(Tablero, Hileras[x][0], Hileras[x][1], Hileras[x][1]);
     }
 
 }
@@ -136,4 +123,3 @@ int Defender_Maquina(char Tablero[], char simbolo, int a, int b, int c){
     else
         return 0;
 }
-
