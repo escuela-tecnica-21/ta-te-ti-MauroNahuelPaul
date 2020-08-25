@@ -1,0 +1,14 @@
+object libro {
+	var autor="Lise Bourbeau"
+	var nombre="Obedece a tu cuerpo"
+	var genero="Libro de autoayuda"
+	method quienEsElAutor() {
+		return autor
+	}
+	method comoSeLlamaElLibro() {
+		return nombre
+	}
+	method queGenerosTiene() {
+		return genero
+	}
+}
