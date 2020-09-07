@@ -1,0 +1,106 @@
+#include <stdio.h>
+#include <stdlib.h>
+
+struct Persona{
+    int Energia;
+    int Posicion;
+    int Bus;
+};
+struct Bondi{
+    int Posicion;
+    int Combustible;
+};
+struct Persona Martha;
+struct Bondi Autobus;
+int main()
+{
+
+    Martha.Energia=0;Martha.Posicion=0;Autobus.Combustible=0;Autobus.Posicion=0;
+        Menu();
+
+}
+
+int Menu(){
+
+    char Eleccion;
+    while(1){
+        printf("\n--------------------------------------------------------------------------------------------------------------\n");
+        printf("Martha:\t\t\tAutobus:\t\tF.Salir del menu\nA.Avanzar\t\tD.Avanzar\t\tG.Mostrar status\nB.Alimentar\t\tE.Cargar combustible\nC.Subir al Autobus\nH.Bajar Autobus\t\n");
+        scanf("%s",&Eleccion);
+        if(Eleccion=='A'){
+            AvanzarMartha();
+        }if(Eleccion=='B'){
+            ComerMartha();
+        }if(Eleccion=='C'){
+            SubirAutobus();
+        }if(Eleccion=='D'){
+            AvanzarAutobus();
+        }if(Eleccion=='E'){
+            CargarCombustible();
+        }if(Eleccion=='F'){
+            break;
+        }if(Eleccion=='G'){
+            Status();
+        }if(Eleccion=='H'){
+            BajarAutobus();
+        }
+        if(Eleccion!='A' && Eleccion!='B'&& Eleccion!='C'&& Eleccion!='D'&& Eleccion!='E'&& Eleccion!='F' && Eleccion!='G'&& Eleccion!='H'){
+                printf("Dato ingresado incorrecto");
+        }
+        if(Martha.Bus==1){
+            Pasajeros();
+        }
+    }
+}
+void AvanzarMartha(){
+
+    int Distancia;
+    printf("Ingrese la distancia:");scanf("%d",&Distancia);
+    if(Martha.Energia<Distancia || Martha.Energia<=0){
+        printf("Energia insuficiente");
+    }
+    else{
+        Martha.Posicion=Martha.Posicion+Distancia;
+        Martha.Energia=Martha.Energia-Distancia;
+    }
+}
+void ComerMartha(){
+
+    int Comida;
+    printf("Cuanta energia da su comida:");scanf("%d",&Comida);
+    Martha.Energia=Martha.Energia+Comida;
+}
+void SubirAutobus(){
+    if(Martha.Posicion==Autobus.Posicion){
+        Martha.Bus=1;
+    }
+
+}
+void AvanzarAutobus(){
+
+    int Distancia;
+    printf("Ingrese la distancia:");scanf("%d",&Distancia);
+    if(Autobus.Combustible<Distancia || Autobus.Combustible<1){
+        printf("Combustible insuficiente");
+    }
+    else{
+        Autobus.Posicion=Autobus.Posicion+Distancia;
+        Autobus.Combustible=Autobus.Combustible-Distancia;
+    }
+}
+void CargarCombustible(){
+    int Combustible;
+    printf("Cuanto combustible desea cargar:");scanf("%d",&Combustible);
+    Autobus.Combustible= Autobus.Combustible+Combustible;
+}
+void Status(){
+    printf("\n\t\tMartha:\t\tAutobus:\nEnegia:\t\t%d\t\t%d\nPosicion:\t%d\t\t%d",Martha.Energia,Autobus.Combustible,Martha.Posicion,Autobus.Posicion);
+
+}
+void Pasajeros(){
+    Martha.Posicion=Autobus.Posicion;
+}
+void BajarAutobus(){
+    Martha.Bus=0;
+}
+
